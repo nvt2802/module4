@@ -8,12 +8,14 @@
 </head>
 <body>
 <h1 style="text-align: center">PRODUCT LIST</h1>
-<form action="/product/search" method="post" >
-    <input  type="text" name="name" placeholder="Search name...">
+<DIV >
+<form action="/product/search" method="post" class="d-flex justify-content-center">
+    <input  type="text" name="name" placeholder="Search name..." required>
     <button class="btn btn-outline-success">Search</button>
 </form>
+</DIV>
 <div th:if="${msg}">
-    <p th:text="${msg}"></p>
+    <p th:text="${msg}" style="text-align: center"></p>
 </div>
 
 <a href="/product/create"><button class="btn btn-outline-success">Add new product</button></a>
@@ -24,7 +26,7 @@
         <th>Price</th>
         <th>Description</th>
         <th>Is availability</th>
-        <th colspan="2">Action</th>
+        <th colspan="3">Action</th>
     </tr>
     <tr th:each="product,status: ${products}">
         <td th:text="${status.count}"></td>
@@ -33,6 +35,7 @@
         <td th:text="${product.description}"></td>
         <td th:if="${product.availability}" th:text="Yes"></td>
         <td th:unless="${product.availability}" th:text="No"></td>
+        <td><a th:href="@{/product/detail/{id}(id=${product.id})}"><button class="btn btn-outline-primary">Detail</button></a></td>
         <td><a th:href="@{/product/update/{id}(id=${product.id})}"><button class="btn btn-outline-primary">Edit</button></a></td>
         <td><a th:href="@{/product/delete/{id}(id=${product.id})}"><button class="btn btn-outline-danger">Delete</button></a></td>
     </tr>

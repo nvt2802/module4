@@ -25,8 +25,12 @@ public class ProductController {
 
     @RequestMapping("/delete/{id}")
     public String deleteProduct(@PathVariable int id, RedirectAttributes redirectAttributes) {
-        productService.delete(id);
-        redirectAttributes.addFlashAttribute("msg", "Delete successful");
+       boolean check= productService.delete(id);
+       if(check) {
+           redirectAttributes.addFlashAttribute("msg", "Delete successful");
+       }else {
+           redirectAttributes.addFlashAttribute("msg", "Delete doesn't successful");
+       }
         return "redirect:/product/list";
     }
     @RequestMapping("/update/{id}")
@@ -34,6 +38,12 @@ public class ProductController {
         Products product = productService.getById(id);
         model.addAttribute("product",product);
         return "update";
+    }
+    @RequestMapping("detail/{id}")
+    public String showDetail(@PathVariable int id, Model model){
+        Products product = productService.getById(id);
+        model.addAttribute("product",product);
+        return "detail";
     }
     @PostMapping("/update")
     public String updateProduct(@ModelAttribute Products product,RedirectAttributes redirectAttributes){

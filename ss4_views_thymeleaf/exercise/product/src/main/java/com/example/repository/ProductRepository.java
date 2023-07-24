@@ -2,58 +2,62 @@ package com.example.repository;
 
 import com.example.model.Products;
 import org.springframework.stereotype.Repository;
-
+import org.springframework.transaction.annotation.Transactional;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 import java.util.*;
 
 @Repository
 public class ProductRepository implements IProductRepository {
-    private static Map<Integer, Products> productsList = new HashMap<>();
-    private static int idNewProduct = 4;
-
-    static {
-        productsList.put(1, new Products(1, "Bia", 20000, "Say", true));
-        productsList.put(2, new Products(2, "Ruou", 20000, "Say", false));
-        productsList.put(3, new Products(3, "Moi", 20000, "Ngon", true));
-        productsList.put(4, new Products(4, "Nuoc ngot", 20000, "Ngot", false));
-    }
-
+@PersistenceContext
+private EntityManager entityManager;
     @Override
     public List<Products> getAll() {
-        return new ArrayList<>(productsList.values());
+        TypedQuery<Products> query = entityManager.createQuery("from Products",Products.class);
+        return query.getResultList();
     }
 
     @Override
+    @Transactional
     public boolean detete(int id) {
-        Products products = productsList.remove(id);
-        return products != null;
-    }
-
-    @Override
-    public Products getById(int id) {
-        return productsList.get(id);
-    }
-
-    @Override
-    public void update(Products product) {
-        productsList.put(product.getId(), product);
-    }
-
-    @Override
-    public void add(Products product) {
-        idNewProduct++;
-        product.setId(idNewProduct);
-        productsList.put(idNewProduct, product);
-    }
-
-    @Override
-    public List<Products> search(String name) {
-        List<Products> products = new ArrayList<>();
-        for (Integer key:productsList.keySet()) {
-            if(productsList.get(key).getName().toLowerCase().contains(name.toLowerCase())){
-
-                products.add(productsList.get(key));
-            }
+        Products products = getById(id);
+        try {
+            entityManager.remove(products);
+        }catch (Exception e){
+            return false;
         }
-        return products;
+        return true;
+    }
+
+    @Override
+    @Transactional
+    public Products getById(int id) {
+        return entityManager.find(Products.class,id);
+    }
+
+    @Override
+    @Transactional
+    public void update(Products product) {
+        Products products = getById(product.getId());
+        products.setName(product.getName());
+        products.setDescription(product.getDescription());
+        products.setAvailability(product.isAvailability());
+        entityManager.merge(products);
+    }
+
+    @Override
+    @Transactional
+    public void add(Products product) {
+        entityManager.persist(product);
+    }
+
+    @Override
+    @Transactional
+    public List<Products> search(String name) {
+        Query query =entityManager.createNativeQuery(" select * from Products p where p.name like :name ; ",Products.class);
+        query.setParameter("name","%"+name+"%");
+        return query.getResultList();
     }
 }
