@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<form th:object="${blog}" th:action="@{/blog/create}" method="post">
+    <table>
+        <tr>
+            <th>Tác giả</th>
+            <td><input th:field="*{author}"></td>
+        </tr>
+        <tr>
+            <th>Tiêu đề</th>
+            <td><input th:field="*{title}"></td>
+        </tr>
+        <tr>
+            <th>Nội dung</th>
+            <td><textarea th:field="*{content}"></textarea></td>
+        </tr>
+        <tr>
+            <th>Loại</th>
+            <td><select name="categoryId">
+<!--                <option th:value="*{category.id}"><span th:text="*{category.name}"></span></option>-->
+                <option th:each="c:${categories}" th:value="${c.id}"><span th:text="${c.name}"></span></option>
+            </select></td>
+        </tr>
+    </table>
+    <button>Create</button>
+</form>
+</body>
+</html>
