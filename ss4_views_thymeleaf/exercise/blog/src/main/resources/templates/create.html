@@ -6,7 +6,7 @@
 </head>
 <body>
 <form th:object="${blog}" th:action="@{/blog/create}" method="post">
-    <table>
+    <table class="table table-striped">
         <tr>
             <th>Tác giả</th>
             <td><input th:field="*{author}"></td>
@@ -21,7 +21,7 @@
         </tr>
         <tr>
             <th>Loại</th>
-            <td><select name="categoryId">
+            <td><select th:field="*{category}">
 <!--                <option th:value="*{category.id}"><span th:text="*{category.name}"></span></option>-->
                 <option th:each="c:${categories}" th:value="${c.id}"><span th:text="${c.name}"></span></option>
             </select></td>
