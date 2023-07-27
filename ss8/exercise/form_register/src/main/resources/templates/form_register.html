@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Đăng kí</title>
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css?family=Merriweather:300,400,400i|Noto+Sans:400,400i,700" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600" rel="stylesheet">
+    <style>
+        *{
+            margin:0;
+            padding:0;
+            border:none;
+            font-family: 'Open Sans', sans-serif;
+        }
+        body {
+            overflow: hidden;
+            background-color: #ededed;
+        }
+        .to {
+            display: grid;
+            grid-template-columns: repeat(12,1fr);
+            grid-template-rows: minmax(50px,auto);
+        }
+
+        .form {
+            border: 1px solid #80808000;
+            grid-column: 6/9;
+            grid-row: 3;
+            height: 585px;
+            width: 350px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            border-radius: 15px;
+            box-shadow: 0px 0px 14px 0px grey;
+            background-color: white;
+        }
+        h2 {
+            margin-top: 50px;
+            margin-bottom: 30px;
+        }
+        i.fab.fa-app-store-ios {
+            display: block;
+            margin-bottom: 50px;
+            font-size: 28px;
+        }
+
+        label {
+            margin-left: -126px;
+            display: block;
+            font-weight: lighter;
+
+        }
+        input{
+            display: block;
+            border-bottom: 2px solid #00BCD4;
+            margin-top: 6px;
+            margin-bottom: 10px;
+            outline-style: none;
+            padding: 5px;
+            width: 70%;
+        }
+
+        input#submit {
+            padding: 7px;
+            width: 50%;
+            border-radius: 10px;
+            border: none;
+            position: absolute;
+            bottom: 10px;
+            cursor: pointer;
+            background: linear-gradient(to right, #fc00ff, #00dbde);
+        }
+        input#submit:hover{
+
+            background: linear-gradient(to right, #fc466b, #3f5efb);
+        }
+    </style>
+</head>
+<body>
+<form th:object="${userDto}" th:action="@{/user/register}" method="post">
+<div class="to">
+    <div class="form">
+        <h2>Đăng ký </h2>
+        <label style="margin-left: -230px;">Họ</label>
+        <input type="text" th:field="*{firstName}">
+        <small style="color: red" th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}"> </small>
+        <label style="margin-left: -230px;">Tên</label>
+        <input type="text" th:field="*{lastName}">
+        <small style="color: red" th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"> </small>
+        <label style="margin-left: -230px;">Tuổi</label>
+        <input type="number" min="18" value="18" th:field="*{age}">
+        <small style="color: red" th:if="${#fields.hasErrors('age')}" th:errors="*{age}"> </small>
+        <label style="margin-left: -171px;">Số điện thoại</label>
+        <input type="text" th:field="*{phoneNumber}">
+        <small style="color: red" th:if="${#fields.hasErrors('phoneNumber')}" th:errors="*{phoneNumber}"> </small>
+        <label style="margin-left: -230px;">Email</label>
+        <input type="text" th:field="*{email}">
+        <small style="color: red" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"> </small>
+        <input id="submit" type="submit" name="submit" value="Gửi">
+    </div>
+</div>
+</form>
+</body>
+</html>

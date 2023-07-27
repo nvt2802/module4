@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h1>Trang cá nhân</h1>
+Họ:
+<span th:text="${user.firstName}"></span><br>
+Tên:
+<span th:text="${user.lastName}"></span><br>
+Tuổi:
+<span th:text="${user.age}"></span><br>
+Sđt:
+<span th:text="${user.phoneNumber}"></span><br>
+Email:
+<span th:text="${user.email}"></span><br>
+</body>
+</html>
