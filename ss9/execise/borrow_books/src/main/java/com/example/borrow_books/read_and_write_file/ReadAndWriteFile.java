@@ -26,6 +26,7 @@ public class ReadAndWriteFile {
             FileWriter fileWriter = new FileWriter(path, append);
             BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
             bufferedWriter.write(string);
+            bufferedWriter.write("\n");
             bufferedWriter.close();
         } catch (IOException e) {
             System.out.println("File not found!");
