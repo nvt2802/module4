@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+</head>
+<body>
+<p>
+    <a href="/shop">Shop</a>
+</p>
+<form th:action="@{/checkout}" th:object="${cart}" method="get">
+    <h3>Cart(<span th:text="${cart.countItemQuantity()}"></span>)</h3>
+    <!--  <h3>Total Products: <span th:text="${cart.countProductQuantity()}"></span></h3>-->
+    <hr>
+    <DIV th:each="product: ${cart.products}" class="row">
+        <div class="col-4 d-flex justify-content-center">
+            <img th:src="@{${product.key.img}}" height="200px">
+        </div>
+        <div class="col-8">
+            <p th:text="${product.key.name}"></p>
+            <p th:text="${product.key.price}"></p>
+            <nav aria-label="...">
+                <ul class="pagination">
+                    <li th:if="${product.getValue()}<=1" class="page-item disabled">
+                        <span class="page-link">-</span>
+                    </li>
+                    <li th:if="${product.getValue()}>1" class="page-item">
+                        <a class="page-link" th:href="@{/add/__${product.getKey().id}__(action='reduce')}">-</a>
+                    </li>
+                    <li class="page-item active" aria-current="page">
+                        <span class="page-link" th:text="${product.getValue()}"></span>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" th:href="@{/add/__${product.getKey().id}__(action='increase')}">+</a>
+                    </li>
+                </ul>
+            </nav>
+            <a class="btn btn-outline-danger" th:href="@{/add/__${product.getKey().id}__(action='delete')}">Delete</a>
+        </div>
+        <hr>
+    </DIV>
+    <p>Tổng: <span th:text="${cart.countTotalPayment()}"></span> đ</p>
+    <button class="btn btn-outline-dark">Order</button>
+</form>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
+        crossorigin="anonymous"></script>
+
+</body>
+</html>

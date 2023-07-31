@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+
+</head>
+<body>
+<form th:object="${cart}" th:action="@{/checkout}" method="post" class="container">
+    <div class="row ">
+        <div class="col-6">
+            <label for="email">Email:</label><br>
+            <input id="email" type="email" name="email"><br>
+            <label for="address">Address:</label><br>
+            <input type="text" required id="address" name="address"><br>
+            <label for="phoneNumber">Phone Number:</label><br>
+            <input type="text" required id="phoneNumber" name="phoneNumber"><br>
+        </div>
+        <div class="col-6">
+            <table class="table">
+                <tr>
+                    <th>Name</th>
+                    <th>Quantity</th>
+                    <th>price</th>
+                </tr>
+                <tr th:each="product: ${cart.products}">
+                    <td th:text="${product.key.name}"></td>
+                    <td th:text="${product.value}"></td>
+                    <td th:text="${product.key.price}"></td>
+                </tr>
+                <tr>
+                    <td colspan="2" style="text-align: center">Tổng</td>
+                    <td th:text="${cart.countTotalPayment()}"></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <button class="btn btn-outline-dark">Checkout</button>
+</form>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
+        crossorigin="anonymous"></script>
+</body>
+</html>
