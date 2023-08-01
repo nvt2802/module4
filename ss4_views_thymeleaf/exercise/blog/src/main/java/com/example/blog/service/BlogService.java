@@ -53,4 +53,14 @@ public class BlogService implements IBlogService{
     public Page<Blog> getByCategory(Pageable pageable, int categoryId) {
         return blogRepository.findBlogsByCategory_Id(pageable,categoryId);
     }
+
+    @Override
+    public List<Blog> getAllist() {
+        return blogRepository.findAll();
+    }
+
+    @Override
+    public List<Blog> getListBlogByCategotyId(int id) {
+        return blogRepository.findBlogsByCategory_Id(id);
+    }
 }

@@ -21,4 +21,8 @@ public interface IBlogService {
     void add(Blog blog);
 
     Page<Blog> getByCategory(Pageable pageable, int categoryId);
+
+    List<Blog> getAllist();
+
+    List<Blog> getListBlogByCategotyId(int id);
 }
